@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Paraphraser</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 40px;
+            background-color: #f8f9fa;
+        }
+        .summary-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">🧠 Text Summarizer</h1>
+    <p class="text-center text-muted">
+        Powered by a fine-tuned BART model on the CCN Daily Mail dataset.<br>
+        Paste your text below and get a concise summary instantly.
+    </p>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="input_text" class="form-label"></label>
+            <textarea class="form-control" id="input_text" name="input_text" rows="6" required>{{ request.form.input_text or '' }}</textarea>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">Summarize</button>
+        </div>
+    </form>
+
+    {% if summary %}
+    <div class="summary-box">
+        <h5>📋 Summary:</h5>
+        <p>{{ summary }}</p>
+    </div>
+    {% endif %}
+
+    <footer class="text-center text-muted mt-5">
+        <p>Made with ❤️ for NLP exploration — <a href="https://github.com/JoeMuldowney/AI_Paraphraser" target="_blank">View on GitHub</a></p>
+    </footer>
+</div>
+</body>
+</html>
