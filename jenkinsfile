@@ -2,7 +2,7 @@ pipeline {
     agent { label "Gonode" }
 
     environment {
-        DOCKERHUB_CREDENTIALS = '5fd57e13-b6e6-45bd-a283-0a91b7c0b8d0')
+        DOCKERHUB_CREDENTIALS = '5fd57e13-b6e6-45bd-a283-0a91b7c0b8d0'
     }
 
     stages {
