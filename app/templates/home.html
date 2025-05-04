@@ -25,17 +25,18 @@
 <div class="container">
     <h1 class="text-center">🧠 Text Summarizer</h1>
     <p class="text-center text-muted">
-        Powered by a fine-tuned BART model on the CCN Daily Mail dataset.<br>
+        Powered by a fine-tuned BART base model on the CNN Daily Mail dataset.<br>
         Paste your text below and get a concise summary instantly.
     </p>
 
-    <form method="POST">
+   <form method="POST">
         <div class="mb-3">
-            <label for="input_text" class="form-label"></label>
-            <textarea class="form-control" id="input_text" name="input_text" rows="6" required>{{ request.form.input_text or '' }}</textarea>
+
+            <textarea class="form-control" id="input_text" name="input_text" placeholder = "Enter text here" rows="6" required>{{ request.form.input_text or '' }}</textarea>
         </div>
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-lg">Summarize</button>
+            <button type="submit" class="btn btn-primary btn-lg">Summarize</button><br>
+            <button type="button" class="btn btn-primary" style="width: 96px;" onclick="clearForm()">Clear</button>
         </div>
     </form>
 
@@ -46,9 +47,39 @@
     </div>
     {% endif %}
 
+    <!-- Optional sections below -->
+    <hr class="my-5">
+
+    <h3>🧪 Sample Results</h3>
+
+
+    <div class="card my-3">
+        <div class="card-body">
+            <h5 class="card-title">Sample {{ (index % total) + 1 }} {{ sample_metrics.evaluation }}</h5>
+            <p><strong>Comet:</strong> {{ sample_metrics.Comet }} | <strong>Bert:</strong> {{ sample_metrics.Bert }} | <strong>Rouge1:</strong> {{ sample_metrics.Rouge1 }}</p>
+            <p><strong>Input:</strong> {{ sample_metrics.input }}</p>
+            <p><strong>Expected Summary:</strong> {{ sample_metrics.expected }}</p>
+            <p><strong>Model Output:</strong> {{ sample_metrics.output }}</p>
+        </div>
+    </div>
+
+    <a href="/?index={{ index + 1 }}" class="btn btn-primary" style="width: 96px;">Next</a>
+
     <footer class="text-center text-muted mt-5">
-        <p>Made with ❤️ for NLP exploration — <a href="https://github.com/JoeMuldowney/AI_Paraphraser" target="_blank">View on GitHub</a></p>
+        <p>Made with ❤️ for NLP exploration — <a href="https://github.com/yourrepo" target="_blank">View on GitHub</a></p>
     </footer>
 </div>
+
+<script>
+function clearForm() {
+    document.getElementById("input_text").value = ""; // clear the textarea
+
+    // If there's a summary div, hide or clear it
+    const summaryBox = document.querySelector(".summary-box");
+    if (summaryBox) {
+        summaryBox.innerHTML = "";  // Clear contents
+    }
+}
+</script>
 </body>
 </html>
