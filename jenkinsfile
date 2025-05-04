@@ -1,0 +1,41 @@
+pipeline {
+    agent { label "Gonode" }
+
+    environment {
+        DOCKERHUB_CREDENTIALS = '5fd57e13-b6e6-45bd-a283-0a91b7c0b8d0')
+    }
+
+    stages {
+        stage('Remove old build') {
+            steps {
+                sh 'docker stop bartmodel || true'
+                sh 'docker rm bartmodel || true'
+                sh 'docker system prune -af'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                checkout scm
+                sh 'docker build -t bartmodel .'
+            }
+        }
+        // For storage
+        stage('Push to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS, usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                    sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                    sh 'docker tag bartmodel joemuldowney/AIparaphraser'
+                    sh 'docker push joemuldowney/AIparaphraser'
+                }
+            }
+        }
+
+        stage('Deploy on server') {
+            steps {
+                sh 'docker run -d -p 5000:5000 --name bartmodel \
+                joemuldowney/AIparaphraser'
+            }
+        }
+    }
+}
