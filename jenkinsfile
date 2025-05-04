@@ -1,8 +1,8 @@
 pipeline {
-    agent { label "Gonode" }
+    agent { label "newnode" }
 
     environment {
-        DOCKERHUB_CREDENTIALS = '5fd57e13-b6e6-45bd-a283-0a91b7c0b8d0'
+        DOCKERHUB_CREDENTIALS = 'e1a75294-869b-4132-886f-764718323e8a'
     }
 
     stages {
