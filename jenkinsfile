@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 checkout scm
-                sh 'git lfs install'
+                sh 'git lfs install --skip-repo'
                 sh 'git lfs pull'
                 sh 'docker build -t bartmodel .'
             }
