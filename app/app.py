@@ -121,7 +121,8 @@ def home():
         model_input = request.form['input_text']
         total_tokens = get_count(model_input)
         summary = summarize(model_input)
-        print(f"Token count: {total_tokens}")
+        if total_tokens > 1024:
+            summary = "Input larger than expected. Please try again with a smaller input (under 1024 tokens)."
     else:
         # On GET request with index, show the sample summary in the textarea
         model_input = sample['output']

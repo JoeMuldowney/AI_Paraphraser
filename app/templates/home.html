@@ -26,7 +26,8 @@
     <h1 class="text-center">🧠 Text Summarizer</h1>
     <p class="text-center text-muted">
         Powered by a fine-tuned BART base model on the CNN Daily Mail dataset.<br>
-        Paste your text below and get a concise summary instantly.
+        Paste your text below and get a concise summary.
+        Please be patience while the model thinks.
     </p>
 
    <form method="POST">
@@ -53,6 +54,8 @@
     <h3>🧪 Sample Results</h3>
 
 
+    <div id="sample-container">
+
     <div class="card my-3">
         <div class="card-body">
             <h5 class="card-title">Sample {{ (index % total) + 1 }} {{ sample_metrics.evaluation }}</h5>
@@ -62,8 +65,8 @@
             <p><strong>Model Output:</strong> {{ sample_metrics.output }}</p>
         </div>
     </div>
-
-    <a href="/?index={{ index + 1 }}" class="btn btn-primary" style="width: 96px;">Next</a>
+</div>
+    <a href="/?index={{ index + 1 }}" class="btn btn-primary" style="width: 96px;" id="next-button">Next</a>
 
     <footer class="text-center text-muted mt-5">
         <p>Made with ❤️ for NLP exploration - <a href="https://github.com/JoeMuldowney/AI_Paraphraser" target="_blank">View on GitHub</a> - <a href="https://www.youtube.com/watch?v=GktdzK3PmxA&t=14s" target="_blank">View on YouTube</a></p>
@@ -81,6 +84,23 @@ function clearForm() {
         summaryBox.innerHTML = "";  // Clear contents
     }
 }
+
+document.getElementById('next-button').addEventListener('click', function(e) {
+    e.preventDefault(); // prevent full page reload
+    fetch(this.href)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newCard = doc.querySelector('#sample-container');
+            document.getElementById('sample-container').innerHTML = newCard.innerHTML;
+
+            // Update the href for the next sample
+            const nextHref = doc.querySelector('#next-button').getAttribute('href');
+            this.setAttribute('href', nextHref);
+        })
+        .catch(err => console.error('Fetch error:', err));
+});
 </script>
 </body>
 </html>
