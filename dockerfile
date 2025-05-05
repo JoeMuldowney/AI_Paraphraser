@@ -4,8 +4,8 @@ WORKDIR Summarizer_App
 
 COPY . .
 
-# Install dependencies
-RUN pip3 install torch torchvision torchaudio \
+# Install dependencies for linux
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu \
     && pip install --no-cache-dir -r app/requirements.txt
 
 
