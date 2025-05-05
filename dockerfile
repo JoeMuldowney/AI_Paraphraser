@@ -5,7 +5,9 @@ WORKDIR Summarizer_App
 COPY . .
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install torch torchvision torchaudio \
+    && pip install --no-cache-dir -r app/requirements.txt
+
 
 # Expose the port
 EXPOSE 5000
